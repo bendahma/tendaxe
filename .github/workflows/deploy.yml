@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-deployment-artifacts:
+    name: Create Deployment artifacts
+    runs-on: ubuntu-latest
+    outputs:
+      deployment-matrix: ${{ steps.export-deployment-matrix.outputs.deployment-matrix }}
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Configure PHP 8.1
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 8.1
+        extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+    - name: Composer install
+      run: |
+            composer install --no-dev --no-interaction --prefer-dist
+
+    - name: Compile Css and Javascript
+      run: |
+            npm install
+            npm run build
+
+    - name: Create deployment artifact
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+      run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules *
+
+    - name: Store artifact for distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-build
+        path: ${{ github.sha }}.tar.gz
+
+    - name: Export deployment matrix
+      id: export-deployment-matrix
+      run: |
+          JSON="$(cat ./servers.json)"
+          JSON="${JSON//'%'/'%25'}"
+          JSON="${JSON//$'\n'/'%0A'}"
+          JSON="${JSON//$'\r'/'%0D'}"
+          echo "::set-output name=deployment-matrix::$JSON" 
