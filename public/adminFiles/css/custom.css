@@ -1,0 +1,24 @@
+.inner {
+    width: 100%;
+}
+
+/* @media only screen and (max-width: 768px) {
+    .hide-md {
+        display: none;
+    }
+    .dropdown-menu {
+        overflow: scroll !important;
+    }
+
+    .inner {
+        position: absolute;
+    }
+} */
+
+.pagination {
+    flex-wrap: wrap !important;
+}
+
+.dropdown-menu {
+    max-width: 60%;
+}
