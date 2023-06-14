@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Staging",
+        "ip": "",
+        "username": "root",
+        "password": "",
+        "port": 22,
+        "beforeHooks": "",
+        "afterHooks": "",
+        "path": "/var/www/html"
+    }
+]
