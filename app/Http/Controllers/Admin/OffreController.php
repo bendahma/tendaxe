@@ -284,6 +284,7 @@ class OffreController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         // validation
         $this->validate($request, [
             'titre' => 'required',

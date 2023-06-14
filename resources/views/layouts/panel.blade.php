@@ -179,7 +179,7 @@
             </footer>
 		</div>
 	</div>
-
+	@yield('script')
 	<script src="{{ asset('adminFiles/js/app.js') }}"></script>
 	<script>
 		$('input[type="date"]').flatpickr({

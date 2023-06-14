@@ -34,12 +34,13 @@
         </div>
     </div>
 @else
+<a class="btn btn-info" href="{{ route('admin.offers.penddingOffers') }}">Pendding offers</a>
     <div class="bg-white p-3 border my-4">
-        <form style="padding: 20px 0px; " action="{{  route('admin.offers.addoffergrouplist')  }}" method="get" enctype= multipart/form-data>
+        <form style="padding: 20px 0px; " action="{{  route('admin.offers.addoffergrouplist')  }}" method="POST" enctype= multipart/form-data>
             @csrf
             <div style="margin: 8px 0px;" class="form-group" style="margin: 20px 0px;">
                 <label for="">Inserer les photos</label>
-                <input  class="form-control" type="file" name="pictures[]" required multiple>
+                <input  class="form-control" type="file" name="images[]" required multiple>
             </div>
 
             <div class="text-right">
