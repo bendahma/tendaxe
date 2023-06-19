@@ -64,7 +64,7 @@
 
 	    <title> @yield('title') | TendAxe  Appels d'offres et consultations en Algérie</title>
 		<link rel="icon" href="{{ asset('img/icons/main.png') }}" type="image/icon type">
-
+		@livewireStyles
   	</head>
   	<body class="bg-light">	  	
 		<nav class="navbar navbar-expand-md navbar-light bg-light px-4 py-md-3 shadow fixed-top">
@@ -302,7 +302,7 @@
 				</div>
 				</div>
 		  	</div>
-	  
+			@livewireScripts
 		  <script type="text/javascript">
 	  
 			  $('#exampleModalCenter').on('show.bs.modal', function (event) {

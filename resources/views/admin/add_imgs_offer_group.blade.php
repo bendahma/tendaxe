@@ -34,7 +34,7 @@
         </div>
     </div>
 @else
-<a class="btn btn-info" href="{{ route('admin.offers.penddingOffers') }}">Pendding offers</a>
+<a class="btn btn-info" href="{{ route('admin.offers.penddingOffers') }}">Pending group offers ({{ $groupOffersCount }})</a>
     <div class="bg-white p-3 border my-4">
         <form style="padding: 20px 0px; " action="{{  route('admin.offers.addoffergrouplist')  }}" method="POST" enctype= multipart/form-data>
             @csrf

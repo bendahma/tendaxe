@@ -18,7 +18,8 @@
                     @if ($offre->adminetab->category !== "AUTRE")
                         <img class="" src="{{ asset('img/1.png') }}" width="50px">
                     @else
-                        <img class="rounded-circle" src="{{ asset('storage/logo/'.$offre->adminetab->logo) }}" width="50px">
+                        <img class="" src="{{ asset('img/1.png') }}" width="50px">
+                        {{-- <img class="rounded-circle" src="{{ asset('storage/logo/'.$offre->adminetab->logo) }}" width="50px"> --}}
                     @endif
                 @endif
 

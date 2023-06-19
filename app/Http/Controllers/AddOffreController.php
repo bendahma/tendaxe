@@ -122,6 +122,7 @@ class AddOffreController extends Controller
                 'journalar_id' => $id_ar,
                 'journalfr_id' => $id_fr,
                 'adminetab_id' => Auth::user()->adminetab_id,
+                'published'=>true,
             ]);
 
             $offre->secteur()->sync($request->secteur);

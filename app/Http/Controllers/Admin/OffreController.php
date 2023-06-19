@@ -20,7 +20,7 @@ class OffreController extends Controller
         $offres = null;
 
         if(Auth::user()->type_user === "admin"){
-            $offres = Offre::where('etat', 'active')->latest()->paginate(5);
+            $offres = Offre::where('etat', 'active')->where('published',true)->latest()->paginate(5);
         }
 
         if(Auth::user()->type_user === "publisher" || Auth::user()->type_user === "content"){
@@ -34,7 +34,7 @@ class OffreController extends Controller
 
     public function trashed()
     {
-        $offres = Offre::onlyTrashed()->latest('deleted_at')->paginate(5);
+        $offres = Offre::onlyTrashed()->where('published',true)->latest('deleted_at')->paginate(5);
 
         return view('admin.trash', [
             'offres' => $offres,
@@ -284,7 +284,6 @@ class OffreController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         // validation
         $this->validate($request, [
             'titre' => 'required',
@@ -453,6 +452,7 @@ class OffreController extends Controller
             'journalar_id' => $id_ar,
             'journalfr_id' => $id_fr,
             'etat' => "active",
+            'published' => true,
         ]);
 
         $offre->secteur()->sync($request->secteur);

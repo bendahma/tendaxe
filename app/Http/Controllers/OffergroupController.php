@@ -20,48 +20,37 @@ class OffergroupController extends Controller
     public function index()
 
     {
-        return view('admin.add_imgs_offer_group');
+        $groupOffersCount = TempOffer::count();
+        return view('admin.add_imgs_offer_group')->with('groupOffersCount',$groupOffersCount);
     }
 
 
 
     public function addgroupofferlist(Request $request)
     {
-
-        // $validatedData = $request->validate([
-        //     'pictures' => 'required',
-        // ]);
-
         $files = $request->file('images');
-        foreach($files as $picture) {
-            $fileName = time() . '_' . $picture->getClientOriginalName();
-            $filePath = $picture->storeAs('public',$picture->getClientOriginalName());
-            // $img = Image::make($picture->getRealPath());
-
-            // $img->resize(1200, 1200, function ($constraint) {
-            //     $constraint->aspectRatio();
-            //     $constraint->upsize();
-            // });
-    
+        foreach($files as $image) {
+            $fileName   = uniqid() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $img->resize(1200, 1200, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $img->stream();
+            Storage::disk('local')->put('public/' . $fileName, $img);
             TempOffer::create([
-                'titre' => $picture->getClientOriginalName(),
-                'img_offre' => $filePath,
+                'titre' => $image->getClientOriginalName(),
+                'img_offre' => $fileName,
                 'statut' => 'pendding',
                 'user_id' => auth()->user()->id,
             ]);
-
-            // Storage::disk('local')->put('public/tempOffers' . $fileName, $img);
         }
-
-        $penddingOffers = TempOffer::paginate(25);
-
-        return view('admin.add_offers_group_list')->with('penddingOffers',$penddingOffers);
+        return redirect()->route('admin.offers.penddingOffers');
     }
 
     public function penddingOffers(){
-        $penddingOffers = TempOffer::paginate(25);
-
-        return view('admin.add_offers_group_list')->with('penddingOffers',$penddingOffers);
+        $pendingOffers = TempOffer::all();
+        return view('admin.add_offers_group_list')->with('pendingOffers',$pendingOffers);
     }
 
 

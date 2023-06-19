@@ -92,132 +92,12 @@ $pic = new LengthAwarePaginator($paginatedPicture, $collect_pictures->count(), 1
 
         </div>
     @else
-        @foreach ($penddingOffers as $key => $offer)
-            <form action="{{ route('admin.offers.addoffergroup') }}" method="POST" enctype=multipart/form-data>
-                @csrf
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 120px">Titre</span>
-                                    </div>
-                                    <input type="text" name="wilaya" class="form-control" value="{{ $offer->titre }}">
-                                </div>
-                                
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <img src="{{ asset('img/1.png') }}" alt="Logo" style="height: 40px">
-                            </div>
-                        </div>
-<br>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white" style="width: 120px">Annonceur</span>
-                                    </div>
-                                    <input type="text" name="annonceur" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 140px">Secteur</span>
-                                    </div>
-                                    <input type="text" name="secteur" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 120px">Journal</span>
-                                    </div>
-                                    <input type="text" name="journal" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 120px">Status</span>
-                                    </div>
-                                    <input type="text" name="status" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 140px">Date publication</span>
-                                    </div>
-                                    <input type="date" name="date_publication" class="form-control" id="datePublication">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 120px">Descritpuion</span>
-                                    </div>
-                                    <input type="text" name="description" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 120px">Wilaya</span>
-                                    </div>
-                                    <input type="text" name="wilaya" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-white"  style="width: 140px">Date d'échéance</span>
-                                    </div>
-                                    <input type="date" name="date_echeance" class="form-control" id="dateEcheance">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <input type="submit" class="btn btn-primary" value="Enregistre">
-                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="{{ '#fullscreenModal' . $key }}">Voire</button>
-                                <div class="modal fade" id="{{ 'fullscreenModal' . $key }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="fullscreenModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <img src="{{ asset('storage/'.$offer->titre) }}" alt="" style="max-width: 100%; max-height: 100%;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-        @endforeach
-
-
+        @livewire('group-offers', ['pendingOffers' => $pendingOffers])
 
         <div class="text-right">
 
             <button class="btn btn-info">Publier</button>
-
-
-
-
-
+            
             <script type="text/javascript">
                 wilaya1();
 
@@ -344,30 +224,6 @@ $pic = new LengthAwarePaginator($paginatedPicture, $collect_pictures->count(), 1
 
     @endif
 
-
-
-@endsection
-
-@section('script')
-<script type="text/javascript">
-    function addDaysToDate() {
-        var inputX = document.getElementById('datePublication');
-        var dateX = new Date(inputX.value);
-        var dateY = new Date(dateX.getTime() + (15 * 24 * 60 * 60 * 1000));
-        var inputZ = document.getElementById('dateEcheance');
-        inputZ.value = formatDate(dateY);
-    }
-
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = (date.getMonth() + 1).toString().padStart(2, '0');
-        var day = date.getDate().toString().padStart(2, '0');
-        return year + '-' + month + '-' + day;
-    }
-
-    var inputX = document.getElementById('datePublication');
-    inputX.addEventListener('change', addDaysToDate);
-</script>
 
 
 @endsection
