@@ -230,8 +230,7 @@
 
                     <div class="row my-2">
                         <div class="col-md-12 text-right">
-
-                            <button type="submit" class="btn btn-success">Publié</button>
+                            <button type="submit" class="btn btn-success" >Publié</button>
                             <button type="button" class="btn btn-secondary" data-toggle="modal"
                                 data-target="{{ '#fullscreenModal' . $offer->id }}" wire:ignore>Voir</button>
                             <div class="modal fade" id="{{ 'fullscreenModal' . $offer->id }}" tabindex="-1"
@@ -252,5 +251,17 @@
             </div>
         </form>
     @endif
+
+    <script type="text/javascript">
+    
+    document.addEventListener('livewire:load', function () {
+        $('select').selectpicker();
+    });
+    document.addEventListener('livewire:update', function () {
+        $('select').selectpicker();
+    });
+
+    </script>
+
 </div>
 

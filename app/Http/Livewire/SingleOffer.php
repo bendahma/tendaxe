@@ -99,7 +99,7 @@ class SingleOffer extends Component
         $this->dismiss = true ;
 
         $tempOffer = TempOffer::find($this->offer->id)->delete();
-        
+
     }
 
     public function render()
