@@ -100,6 +100,9 @@ class SingleOffer extends Component
 
         $tempOffer = TempOffer::find($this->offer->id)->delete();
 
+        $this->emit('showToast', 'success', 'Offer published successfully');
+
+        $this->dispatchBrowserEvent('offer-published');
     }
 
     public function render()

@@ -66,13 +66,13 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ (Auth::user()->type_user !== 'content') ? route('admin.offers') : route('rep.offers') }}">
-                            <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">List Offers</span>
+                            <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Offers List</span>
                         </a>
 					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ (Auth::user()->type_user !== 'content') ? route('admin.offers.add') : route('rep.offers.add') }}">
-                            <i class="align-middle" data-feather="file-plus"></i> <span class="align-middle">Add an offers</span>
+                            <i class="align-middle" data-feather="file-plus"></i> <span class="align-middle">Single offers</span>
                         </a>
 					</li>
 					
@@ -84,7 +84,7 @@
 					
                     <li class="sidebar-item">
 						<a class="sidebar-link" href="{{  route('admin.offers.addoffergroupform')  }}">
-                            <i class="align-middle" data-feather="file-plus"></i> <span class="align-middle">Add an offer group</span>
+                            <i class="align-middle" data-feather="file-plus"></i> <span class="align-middle">Group of offers</span>
                         </a>
 					</li>
 					
@@ -100,13 +100,13 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ route('admin.trash') }}">
-                            <i class="align-middle" data-feather="trash-2"></i> <span class="align-middle">trashed offers</span>
+                            <i class="align-middle" data-feather="trash-2"></i> <span class="align-middle">Trashed offers</span>
                         </a>
 					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ route('admin.pending') }}">
-                            <i class="align-middle" data-feather="loader"></i> <span class="align-middle">pending offers</span>
+                            <i class="align-middle" data-feather="loader"></i> <span class="align-middle">Pending offers</span>
                         </a>
 					</li>
 
@@ -188,6 +188,8 @@
 	
 	@yield('script')
 	<script src="{{ asset('adminFiles/js/app.js') }}"></script>
+	<script src="{{ asset('adminFiles/js/toasts.js') }}"></script>
+
 	<script>
 		$('input[type="date"]').flatpickr({
 			'locale': 'fr'
@@ -195,6 +197,7 @@
 	</script>
 	{{-- select2 --}}
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<livewire:toasts/>
 	@livewireScripts
 </body>
 

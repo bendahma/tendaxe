@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a40fa2f7d33dbc8054b6f99bb8de757a",
+    "content-hash": "1c1bece60c8d3b081ba5553e4562d663",
     "packages": [
         {
             "name": "anam/captcha",
@@ -127,6 +127,56 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
+        },
+        {
+            "name": "bastinald/laravel-livewire-toasts",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bastinald/laravel-livewire-toasts.git",
+                "reference": "dfba27a2b7eb8256783d30299d30824b8d19c152"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bastinald/laravel-livewire-toasts/zipball/dfba27a2b7eb8256783d30299d30824b8d19c152",
+                "reference": "dfba27a2b7eb8256783d30299d30824b8d19c152",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "livewire/livewire": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bastinald\\LaravelLivewireToasts\\Providers\\LaravelLivewireToastsProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bastinald\\LaravelLivewireToasts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Dion",
+                    "email": "bastinald@icloud.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Dynamic Laravel Livewire Bootstrap toasts.",
+            "homepage": "https://github.com/bastinald/laravel-livewire-toasts",
+            "support": {
+                "issues": "https://github.com/bastinald/laravel-livewire-toasts/issues",
+                "source": "https://github.com/bastinald/laravel-livewire-toasts/tree/3.0.0"
+            },
+            "time": "2021-09-10T00:18:49+00:00"
         },
         {
             "name": "brick/math",
