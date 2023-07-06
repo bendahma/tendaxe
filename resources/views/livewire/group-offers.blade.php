@@ -1,7 +1,9 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-4"></div>
+          <div class="col-lg-4">
+            <h4>Pendding offers {{ $nbrPendingOffer }}  </h4>
+          </div>
           <div class="col-lg-4"></div>
           <div class="col-lg-4">
             <div class="alert alert-success py-2 px-4 border  align-items-center shadow  " role="alert" id="alertOffer" >
@@ -14,7 +16,7 @@
           </div>
         </div>
       </div>
-    
+      
     @foreach($pendingOffers as $index => $offer)
         @livewire('single-offer', ['offer' => $offer], key($offer->id))
     @endforeach
@@ -23,11 +25,14 @@
     <script>
         var alert = document.getElementById("alertOffer");
         alert.style.display = "none";
-        window.addEventListener('offer-published', event => {
-            alert.style.display = "d-flex";
+        window.addEventListener('offerPublished', event => {
+            alert.style.display = "block";
             setTimeout(function() {
                 alert.style.display = "none";
             }, 1000);
+        })
+        window.addEventListener('hideOofferPublished', event => {
+            alert.style.display = "none";
         })
     </script>
 </div>

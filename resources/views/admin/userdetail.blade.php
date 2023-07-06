@@ -62,33 +62,56 @@
             <hr>
         @endif
         
+         {{-- etat --}}
+         @if(Auth::user()->type_user == 'Super admin')
+         <h4>Type d'utilisateur</h4>
+         <form action="{{ route('admin.user.role', $user) }}" method="POST" class="row">
+             @csrf
+             <div class="col-10">
+                 <select class="form-control selectpicker" name="user_type" id="">
+                     <option value="Super admin" {{ ($user->type_user === "Super admin") ? "selected" : "" }} >Super admin</option>
+                     <option value="admin" {{ ($user->type_user === "admin") ? "selected" : "" }} >Admin</option>
+                     <option value="publisher" {{ ($user->type_user === "publisher") ? "selected" : "" }} >Publisher</option>
+                     <option value="content" {{ ($user->type_user === "content") ? "selected" : "" }} >Content</option>
+                     <option value="abonné" {{ ($user->type_user === "abonné") ? "selected" : "" }} >Abonné</option>
+                 </select>
+             </div>
+
+             <div class="col-2">
+                 <button class="btn btn-info">Changé type</button>
+             </div>
+         </form>
+     @endif
+     <hr>
+
         {{-- etat --}}
         <h4>Etat compte</h4>
         <form action="{{ route('admin.user.etat', $user) }}" method="POST" class="row">
             @csrf
-            <div class="col-6">
+            <div class="col-10">
                 <select class="form-control selectpicker" name="etat" id="">
                     <option value="active" {{ ($user->etat === "active") ? "selected" : "" }} >active</option>
                     <option value="desactive" {{ ($user->etat === "desactive") ? "selected" : "" }} >desactive</option>
                 </select>
             </div>
-            <div class="col-6">
+            <div class="col-2">
                 <button class="btn btn-info">Changé etat</button>
             </div>
         </form>
         
         <hr>
+       
 
         <h4>Etat email verification</h4>
         <form action="{{ route('admin.user.email', $user) }}" method="POST" class="row">
             @csrf
-            <div class="col-md-6">
+            <div class="col-md-10">
                 <select class="form-control selectpicker" name="verification" >
                     <option value="on" {{ ($user->email_verified_at) ?? 'selected' }}>On</option>
                     <option value="off" {{ (!$user->email_verified_at) ? 'selected' : '' }}>Off</option>
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <button type="submit" class="btn btn-info">Changer</button>
             </div>
         </form>

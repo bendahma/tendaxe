@@ -12,5 +12,6 @@ class Journalfr extends Model
     protected $fillable = [
         'nom',
         'logo',
+        'source',
     ];
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPublishedToOffresTable extends Migration
+class AddTicketToJournalfrsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPublishedToOffresTable extends Migration
      */
     public function up()
     {
-        Schema::table('offres', function (Blueprint $table) {
-            $table->boolean('published')->default(true);
+        Schema::table('journalfrs', function (Blueprint $table) {
+            $table->string('source')->default('journalFr');
         });
     }
 
@@ -25,7 +25,7 @@ class AddPublishedToOffresTable extends Migration
      */
     public function down()
     {
-        Schema::table('offer', function (Blueprint $table) {
+        Schema::table('journalfrs', function (Blueprint $table) {
             //
         });
     }

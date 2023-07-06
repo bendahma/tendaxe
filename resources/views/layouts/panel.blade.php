@@ -96,7 +96,7 @@
                     
                     
 
-					@if (Auth::user()->type_user === "admin")
+					@if (Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin")
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ route('admin.trash') }}">
@@ -127,7 +127,8 @@
 					</li>
 
 					<li class="sidebar-header">
-						Admin
+						{{ Auth::user()->type_user === "Super admin" ? 'Super admin' : '' }}
+						{{ Auth::user()->type_user === "admin" ? 'admin' : '' }}
 					</li>
 
 					<li class="sidebar-item">

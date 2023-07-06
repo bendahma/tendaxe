@@ -19,8 +19,8 @@ class OffreController extends Controller
     {
         $offres = null;
 
-        if(Auth::user()->type_user === "admin"){
-            $offres = Offre::where('etat', 'active')->where('published',true)->latest()->paginate(5);
+        if(Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin"){
+            $offres = Offre::where('etat', 'active')->latest()->paginate(5);
         }
 
         if(Auth::user()->type_user === "publisher" || Auth::user()->type_user === "content"){
@@ -34,7 +34,7 @@ class OffreController extends Controller
 
     public function trashed()
     {
-        $offres = Offre::onlyTrashed()->where('published',true)->latest('deleted_at')->paginate(5);
+        $offres = Offre::onlyTrashed()->latest('deleted_at')->paginate(5);
 
         return view('admin.trash', [
             'offres' => $offres,
@@ -63,7 +63,7 @@ class OffreController extends Controller
             $etab = $offre->user->etablissement;
         }
 
-        if($offre->user->type_user === "admin"){
+        if($offre->user->type_user === "Super admin" || $offre->user->type_user === "admin"){
             $etab = $offre->adminetab;
         }
         
@@ -541,7 +541,7 @@ class OffreController extends Controller
             'offre' => 'required|numeric',
         ]);
 
-        if(Auth::user()->type_user === "admin"){
+        if(Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin"){
             // get offer
             $offre = Offre::withTrashed()->find($request->offre);
     

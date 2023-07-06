@@ -12,5 +12,6 @@ class Journalar extends Model
     protected $fillable = [
         'nom',
         'logo',
+        'source',
     ];
 }

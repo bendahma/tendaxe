@@ -18,7 +18,7 @@ class SearchOffreController extends Controller
             if(Auth::user()->type_user === "content"){
                 $expired = true;
                 $secteurs = Secteur::all();
-            }elseif(Auth::user()->type_user === "admin" || Auth::user()->type_user === "publisher"){
+            }elseif(Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin" || Auth::user()->type_user === "publisher"){
                 $expired = false;
                 $secteurs = Secteur::all();
             }else{
@@ -124,7 +124,7 @@ class SearchOffreController extends Controller
     public function detail(Request $request, $offre_id)
     {
         // get offre infos 
-        if(Auth::check() && Auth::user()->type_user === "admin"){
+        if(Auth::check() && (Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin")){
             $offre = Offre::withTrashed()->where('id', $offre_id)->with('secteur','user')->first();
         }else{
             $offre = Offre::where('id', $offre_id)->with('secteur','user')->first();
@@ -166,7 +166,7 @@ class SearchOffreController extends Controller
         $expired = true;
 
         //check if admin
-        if(Auth::check() && Auth::user()->type_user === 'admin'){
+        if(Auth::check() && (Auth::user()->type_user === "Super admin" || Auth::user()->type_user === 'admin')){
             return false;
         }
 

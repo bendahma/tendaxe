@@ -20,7 +20,7 @@ class OffergroupController extends Controller
     public function index()
 
     {
-        $groupOffersCount = TempOffer::count();
+        $groupOffersCount = TempOffer::where('user_id',auth()->user()->id)->count();
         return view('admin.add_imgs_offer_group')->with('groupOffersCount',$groupOffersCount);
     }
 
@@ -49,7 +49,7 @@ class OffergroupController extends Controller
     }
 
     public function penddingOffers(){
-        $pendingOffers = TempOffer::all();
+        $pendingOffers = TempOffer::where('user_id',auth()->user()->id)->get();
         return view('admin.add_offers_group_list')->with('pendingOffers',$pendingOffers);
     }
 

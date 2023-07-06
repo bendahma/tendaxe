@@ -26,7 +26,7 @@ class LoginController extends Controller
             return back()->with('error', 'mauvais e-mail ou mot de passe');
         }
 
-        if(Auth::user()->type_user === "admin"){
+        if(Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin"){
             return redirect()->route('dashboard');
         }
         

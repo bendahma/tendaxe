@@ -63,6 +63,9 @@
                     @endif
                     @if (Auth::check() && (Auth::user()->type_user === 'admin' || Auth::user()->type_user === 'publisher'))
                         <a href="{{ route('admin.offers.edit', $offre) }}" class="btn btn-sm btn btn-outline-info">Modifier</a>
+                    @endif
+                    @if (Auth::check() && Auth::user()->type_user === 'Super admin')
+                        <a href="{{ route('admin.offers.edit', $offre) }}" class="btn btn-sm btn btn-outline-info">Modifier</a>
                         <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{ $offre->id }}">Supprimer</button>
                     @endif
                     @if (Auth::check() && Auth::user()->type_user === 'admin' && $offre->trashed())

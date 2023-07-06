@@ -17,7 +17,7 @@ class adminpanel
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && (Auth::user()->type_user === "publisher" || Auth::user()->type_user === "admin")){
+        if(Auth::check() && (Auth::user()->type_user === "publisher" || Auth::user()->type_user === "Super admin" || Auth::user()->type_user === "admin")){
             return $next($request);
         }
         

@@ -13,8 +13,9 @@ class AdminController extends Controller
     public function index()
     {
         $users = User::where('type_user', '=' , 'admin')
+                    ->orwhere('type_user', '=' , 'Super admin')
                     ->orwhere('type_user', '=' , 'publisher')
-                    ->latest()->paginate(5);
+                    ->latest()->paginate(10);
         
         return view('admin.admins', [
             'users' => $users, 
@@ -31,7 +32,7 @@ class AdminController extends Controller
             'phone' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed',
-            'type_admin' => 'required|in:admin,publisher',
+            'type_admin' => 'required|in:admin,publisher,Super admin',
             ]);
 
         $user = User::create([
@@ -50,5 +51,12 @@ class AdminController extends Controller
         }else{
             return back()->with('error', 'error veuillez resseyé');
         }
+    }
+
+    public function role(Request $request,User $user){
+        $user->update([
+            'type_user' => $request->user_type,
+        ]);
+        return redirect()->route('admin.admins');
     }
 }

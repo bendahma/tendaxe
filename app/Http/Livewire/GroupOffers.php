@@ -11,15 +11,21 @@ class GroupOffers extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['alertMe' => 'setOffAlert'];
+    protected $listeners = ['updateNbrPendingOffers'];
    
-    public function setOffAlert(){
-        Alert::success('Success Title', 'Success Message');
+    public $nbrPendingOffer ;
+
+    public function mount(){
+        $this->nbrPendingOffer = TempOffer::where('user_id',auth()->user()->id)->count();
+    }
+
+    public function updateNbrPendingOffers(){
+        $this->nbrPendingOffer = TempOffer::where('user_id',auth()->user()->id)->count();
     }
 
     public function render()
     {
-        $pendingOffers = TempOffer::paginate(10);
+        $pendingOffers = TempOffer::where('user_id',auth()->user()->id)->paginate(10);
         return view('livewire.group-offers',[
             'pendingOffers' => $pendingOffers,
         ]);

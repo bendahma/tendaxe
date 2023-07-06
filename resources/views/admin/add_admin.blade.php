@@ -33,6 +33,7 @@
             </div>
             <div class="col-md-6 form-group">
                 <select class="form-control selectpicker" name="type_admin" id="">
+                    <option value="Super admin">Super admin</option>
                     <option value="admin" selected>Admin</option>
                     <option value="publisher">publisher</option>
                 </select>

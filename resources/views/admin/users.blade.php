@@ -27,7 +27,8 @@
         <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th scope="col">Fullname</th>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Date inscription</th>
@@ -37,8 +38,12 @@
               </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($users as $key => $user)
+                
                 <tr>
+                    <td>
+                        {{ $key = $key + 1 }}
+                    </td>
                     <td>
                         <a href="{{ route('admin.users.detail', $user) }}">
                             {{ $user->nom . ' ' . $user->prenom }}
