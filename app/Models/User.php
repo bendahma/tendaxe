@@ -6,13 +6,12 @@ use Carbon\Carbon;
 use App\Models\UserSecteur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use ChristianKuri\LaravelFavorite\Traits\Favoriteability;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable 
 {
     use HasFactory, Notifiable, Favoriteability;
 
@@ -35,7 +34,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'type_user',
         'etat',
         'email_verified_at',
-        'note'
+        'note',
+        'code',
+        'phoneVerified'
     ];
 
     /**

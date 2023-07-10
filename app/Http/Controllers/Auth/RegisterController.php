@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -57,9 +58,15 @@ class RegisterController extends Controller
                 'wilaya' => 'required|max:255',
                 // 'commune' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|confirmed'
+                'password' => 'required|confirmed',
+                'code' => 'nullable|integer|min:10000|max:99999'
                 ]);
                 
+            $randomNumber = mt_rand(10000, 99999);
+            while (DB::table('users')->where('code', $randomNumber)->exists()) {
+                $randomNumber = mt_rand(10000, 99999);
+            }
+            
             // store user
             $user = User::create([
                 'nom' => $request->nom,
@@ -71,6 +78,7 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'etat' => 'active',
+                'code' => $randomNumber
             ]);
 
             $abonnement = Abonnement::create([
@@ -89,7 +97,7 @@ class RegisterController extends Controller
             
             // login and redirect to profile
             Auth::attempt($request->only('email', 'password'));
-            return redirect()->route('search');
+            return redirect()->route('phone.verification');
 
             // redirect
             // return redirect()->route('login');

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\OffreController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\SearchOffreController;
+use App\Http\Controllers\verificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SettingsController;
 use App\Http\Controllers\Admin\AbonnementController;
@@ -52,6 +53,10 @@ Route::get('/conditions', function () {
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
+
+// phone number verification
+Route::get('/phone/verify', [verificationController::class,'index'])->middleware('auth')->name('phone.verification');
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/');
