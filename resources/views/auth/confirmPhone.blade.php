@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container d-flex align-items-center justify-content-center" style="height: 70vh">
-        <form class="text-center">
+        <form class="text-center" method="POST" action="{{ route('phone.check') }}">
             <div class="display-4 mb-4">Confirmez votre numéro de téléphone</div>
             <div class="d-flex justify-content-center">
                 <div class="col-lg-4">

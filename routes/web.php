@@ -56,6 +56,7 @@ Route::get('/email/verify', function () {
 
 // phone number verification
 Route::get('/phone/verify', [verificationController::class,'index'])->middleware('auth')->name('phone.verification');
+Route::post('/phone/check', [verificationController::class,'verify'])->middleware('auth')->name('phone.check');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -79,7 +80,7 @@ Route::get('/', function () {
 Route::get('/help',function () {
     return view('help');
 })->name('help');
-Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware('EmailVerified', 'SessionLimiter');
+Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware('SessionLimiter');
 Route::get('/device_manager',[DeviceManagerController::class, 'index'])->name('device_manager')->middleware('auth');
 Route::post('/device_manager/logout/all',[DeviceManagerController::class, 'logout_all'])->name('device_manager.logout.all')->middleware('auth');
 Route::post('/device_manager/logout/{device_id}',[DeviceManagerController::class, 'logout_single'])->name('device_manager.logout.single')->middleware('auth');
