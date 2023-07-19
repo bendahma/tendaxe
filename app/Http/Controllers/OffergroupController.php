@@ -78,37 +78,36 @@ class OffergroupController extends Controller
 //     return redirect()->route('admin.offers.penddingOffers');
 // }
 
-    public function addgroupofferlist(Request $request)
-    {
-        $files = $request->file('images');
-        $watermarkPath = public_path('img/watermark.png'); // Replace with actual path to your watermark image
+public function addgroupofferlist(Request $request)
+{
+    $files = $request->file('images');
+    foreach ($files as $image) {
+        $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
 
-        foreach ($files as $image) {
-            $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
+        // Resize the image
+        $img = Image::make($image->getRealPath());
+        
+        $img->text('TENDAXE - All Rights Reserved', 120, 100, function($font) { 
+            $font->size(60);  
+            $font->color('#e31212');  
+            $font->align('center');  
+            $font->valign('bottom');  
+            $font->angle(90);  
+        });
 
-            // Resize the image
-            $img = Image::make($image->getRealPath())->resize(1200, 1200, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+        // Save the watermarked image directly without using the stream
+        $img->save(public_path('storage/' . $fileName));
 
-            // Apply the watermark
-            $watermark = Image::make($watermarkPath)->opacity(100);
-            $img->insert($watermark, 'center');
-
-            // Save the watermarked image
-            Storage::disk('public')->put($fileName, $img->stream());
-
-            TempOffer::create([
-                'titre' => $image->getClientOriginalName(),
-                'img_offre' => $fileName,
-                'statut' => 'pending',
-                'user_id' => auth()->user()->id,
-            ]);
-        }
-
-        return redirect()->route('admin.offers.penddingOffers');
+        TempOffer::create([
+            'titre' => $image->getClientOriginalName(),
+            'img_offre' => $fileName,
+            'statut' => 'pending',
+            'user_id' => auth()->user()->id,
+        ]);
     }
+
+    return redirect()->route('admin.offers.penddingOffers');
+}
 
     public function penddingOffers(){
         $pendingOffers = TempOffer::where('user_id',auth()->user()->id)->get();

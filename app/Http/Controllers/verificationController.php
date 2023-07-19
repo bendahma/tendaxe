@@ -12,32 +12,25 @@ class verificationController extends Controller
     public function index(){
 
         $code = Auth::user()->code;
-        $accessToken = 'your_access_token';
         $phoneNumber = Auth::user()->phone; 
-        $message = 'Le code de confirmation est : ' . $code;
-
-        $response = Http::post('https://dzwilio.com/messages.php', [
-            'access_token' => $accessToken,
-            'phone_number' => $phoneNumber,
-            'message' => $message,
-            'auth' => 'auth',
-            'return_success' => 'http://typeyourDomain.com/success.php',
-            'return_fail1' => 'http://typeyourDomain.com/fail1',
-            'return_fail2' => 'http://typeyourDomain.com/fail2.php',
-            'return_fail3' => 'http://typeyourDomain.com/fail3.php',
-        ]);
-
-        if ($response->successful()) {
-            // Request was successful, handle the response
-            $data = $response->json(); // Assuming the response is in JSON format
-            // Process the data returned by the API
-        } else {
-            // Request failed, handle the error
-            $statusCode = $response->status();
-            // Handle the error based on the status code
-        }
+        $message = 'Votre%20code%20de%20confirmation%20est%20:%20' .$code;
+        // Http::get('https://es3.smsalgerie.com/api/json?apikey=f252d2b59c290bb46104085577cdb158a60b5fa1&userkey=4777340f27851c120996a5fe4ad33e1d&function=sms_send&message='. $message .'&to='.$phoneNumber);
 
         return view('auth.confirmPhone');
 
+    }
+    public function check(Request $request){
+        $user = Auth::user();
+        $code = $user->code;
+        if($code == $request->code) {
+            $user->update([
+                'code' => NULL,
+                'phoneVerified' => true,
+            ]);
+
+            return redirect()->route('search');
+
+        }
+        return view('auth.confirmPhone')->with('error','Le code que vous avez saisie est incorrect.');
     }
 }

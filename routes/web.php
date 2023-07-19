@@ -56,6 +56,7 @@ Route::get('/email/verify', function () {
 
 // phone number verification
 Route::get('/phone/verify', [verificationController::class,'index'])->middleware('auth')->name('phone.verification');
+Route::post('/phone/check', [verificationController::class,'check'])->middleware('auth')->name('phone.check');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -79,11 +80,12 @@ Route::get('/', function () {
 Route::get('/help',function () {
     return view('help');
 })->name('help');
-Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware('EmailVerified', 'SessionLimiter');
+
+Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware('SessionLimiter');
 Route::get('/device_manager',[DeviceManagerController::class, 'index'])->name('device_manager')->middleware('auth');
 Route::post('/device_manager/logout/all',[DeviceManagerController::class, 'logout_all'])->name('device_manager.logout.all')->middleware('auth');
 Route::post('/device_manager/logout/{device_id}',[DeviceManagerController::class, 'logout_single'])->name('device_manager.logout.single')->middleware('auth');
-Route::middleware(['auth', 'EmailVerified', 'SessionLimiter'])->group(function () {
+Route::middleware(['auth', 'SessionLimiter'])->group(function () {
     Route::get('/add',[AddOffreController::class, 'index'])->name('offre.add');
     Route::post('/add',[AddOffreController::class, 'store']);
     // Route::delete('/offre',[AddOffreController::class, 'destroy'])->name('offre.destroy');
@@ -110,10 +112,9 @@ Route::middleware(['guest'])->group(function () {
     // Route::get('/register/{choice}',[RegisterController::class, 'index']);
     Route::post('/register',[RegisterController::class, 'store']);
 });
-Route::get('/detail/{offre_id}',[SearchOffreController::class, 'detail'])->name('detail')->middleware('EmailVerified', 'SessionLimiter');
+Route::get('/detail/{offre_id}',[SearchOffreController::class, 'detail'])->name('detail')->middleware('SessionLimiter');
 // adminpanel (both admin & publisher can access those routes)
 Route::group(['prefix' => 'admin',  'middleware' => 'adminpanel'], function()
-
 {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -136,8 +137,6 @@ Route::group(['prefix' => 'admin',  'middleware' => 'adminpanel'], function()
     })->name('admin.settings');
     Route::post('/settings',[SettingsController::class, 'EditPassword']);
 });
-
-
 
 Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function() {
     Route::get('/users',[UsersController::class, 'index'])->name('admin.users');

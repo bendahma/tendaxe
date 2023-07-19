@@ -14,7 +14,7 @@ class AddPhonesVerificationsFieldsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('code')->unique();
+            $table->integer('code')->nullable();
             $table->boolean('phoneVerified')->default(false);
         });
     }
