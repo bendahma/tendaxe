@@ -119,6 +119,11 @@
                             <i class="align-middle" data-feather="users"></i> <span class="align-middle">List users</span>
                         </a>
 					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="{{ route('admin.phone.notification') }}">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Phone Verification ({{ App\Models\AdminPhoneNotification::where('seen',false)->count() }})</span>
+                        </a>
+					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="{{ route('admin.user.add') }}">
@@ -186,7 +191,35 @@
             </footer>
 		</div>
 	</div>
+	@if(session('notificationSend'))
+    
+		<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="notificationModalLabel">Notification</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						{{ session('success') }}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	
+
+    <script>
+        // Automatically show the modal when the page loads
+        $(document).ready(function () {
+            $('#notificationModal').modal('show');
+        });
+    </script>
+@endif
 	@yield('script')
 	<script src="{{ asset('adminFiles/js/app.js') }}"></script>
 	<script src="{{ asset('adminFiles/js/toasts.js') }}"></script>

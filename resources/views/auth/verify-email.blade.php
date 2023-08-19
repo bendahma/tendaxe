@@ -7,7 +7,7 @@
         <form class="text-center" method="POST" action="{{ route('verification.send') }}">
             @csrf
             <div class="display-4">Verifiez votre Email</div>
-            <button type="submit" class="btn text-primary">Click ici pour renvoyer email de verification</button>
+            <button type="submit" class="btn text-primary">Click ici pour envoyer email de verification</button>
         </form>
     </div>
 @endsection

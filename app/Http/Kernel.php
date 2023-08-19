@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'adminpanel' => \App\Http\Middleware\adminpanel::class,
         'EmailVerified' => \App\Http\Middleware\EmailVerified::class,
         'SessionLimiter' => \App\Http\Middleware\SessionLimiter::class,
+        'PhoneVerified' => \App\Http\Middleware\PhoneVerified::class,
     ];
 }

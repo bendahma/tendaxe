@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
 class PhoneVerified
 {
@@ -20,7 +21,7 @@ class PhoneVerified
             if(Auth::user()->phoneVerified == true){
                 return $next($request);
             }
-            return redirect()->route('phone.check');
+            return redirect()->route('phone.verification');
         }else{
             return $next($request);
         }        

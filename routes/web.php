@@ -6,6 +6,7 @@ use App\Http\Controllers\OffergroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FavoritController;
+use App\Http\Controllers\AdminPhoneNotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddOffreController;
 use App\Http\Controllers\Auth\LoginController;
@@ -23,6 +24,8 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\Journalfr;
 use App\Models\Journalar;
+use App\Models\Wilaya;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,9 +37,25 @@ use App\Models\Journalar;
 |
 */
 
-Route::get('/fillJournal', function () {
+// MUST RUN ONLY ONCE
+Route::get('/fillDatabase', function () {
+
+    User::query()->update(['phoneVerified'=>true]);
+
     Journalar::query()->update(['source'=>'journalAr']);
     Journalfr::query()->update(['source'=>'journalFr']);
+
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Timimoun']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Bordj Badji Mokhtar']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Ouled Djellal']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Béni Abbès']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Salah']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Guezzam']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Touggourt']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Djanet']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'El M’Ghaier']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'El Meniaa']);
+
     return "DONE";
 });
 
@@ -57,7 +76,11 @@ Route::get('/email/verify', function () {
 // phone number verification
 Route::get('/phone/verify', [verificationController::class,'index'])->middleware('auth')->name('phone.verification');
 Route::post('/phone/check', [verificationController::class,'check'])->middleware('auth')->name('phone.check');
-
+Route::get('/phone/notification', [verificationController::class,'notification'])->middleware('auth')->name('phone.notification');
+Route::get('/phone/sendNotification/{user}', [verificationController::class,'sendNotification'])->middleware('auth')->name('phone.sendNotification');
+Route::get('/phone/confirmation/{user}', [verificationController::class,'confirmation'])->middleware('auth')->name('phone.confirmation');
+// admin phone verification 
+Route::resource('/adminphone', AdminPhoneNotificationController::class);
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/');
@@ -80,17 +103,17 @@ Route::get('/', function () {
 Route::get('/help',function () {
     return view('help');
 })->name('help');
-Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware('SessionLimiter');
-Route::get('/device_manager',[DeviceManagerController::class, 'index'])->name('device_manager')->middleware('auth');
-Route::post('/device_manager/logout/all',[DeviceManagerController::class, 'logout_all'])->name('device_manager.logout.all')->middleware('auth');
-Route::post('/device_manager/logout/{device_id}',[DeviceManagerController::class, 'logout_single'])->name('device_manager.logout.single')->middleware('auth');
-Route::middleware(['auth', 'SessionLimiter'])->group(function () {
+Route::get('/search',[SearchOffreController::class, 'index'])->name('search')->middleware(['PhoneVerified','SessionLimiter']);
+Route::get('/device_manager',[DeviceManagerController::class, 'index'])->name('device_manager')->middleware(['auth','PhoneVerified']);
+Route::post('/device_manager/logout/all',[DeviceManagerController::class, 'logout_all'])->name('device_manager.logout.all')->middleware(['auth']);
+Route::post('/device_manager/logout/{device_id}',[DeviceManagerController::class, 'logout_single'])->name('device_manager.logout.single')->middleware(['auth']);
+Route::middleware(['auth','PhoneVerified' ,'SessionLimiter'])->group(function () {
     Route::get('/add',[AddOffreController::class, 'index'])->name('offre.add');
     Route::post('/add',[AddOffreController::class, 'store']);
     // Route::delete('/offre',[AddOffreController::class, 'destroy'])->name('offre.destroy');
     Route::get('/settings/profile',[ProfileController::class, 'index'])->name('profile');
     Route::get('/settings/abonnement',[ProfileController::class, 'abonnement'])->name('abonnement');
-    Route::get('/settings/notification',[ProfileController::class, 'notif'])->name('notification');
+    Route::get('/settings/notification',[ProfileController::class, 'notif'])->name('notification')->middleware('EmailVerified');
     Route::get('/settings/offres',[AddOffreController::class, 'mesoffres'])->name('user.offers');
     Route::post('/pack',[SettingsController::class, 'DemandeAbonnement'])->name('user.pack.add');
     Route::post('/chang_pswd',[SettingsController::class, 'EditPassword'])->name('user.password');
@@ -119,6 +142,7 @@ Route::group(['prefix' => 'admin',  'middleware' => 'adminpanel'], function()
         return view('admin.dashboard');
     })->name('dashboard');
     Route::post('/logout',[LogoutController::class, 'index'])->name('admin.logout');
+    Route::get('/phone/verification',[verificationController::class, 'notification'])->name('admin.phone.notification');
     Route::get('/offers',[OffreController::class, 'index'])->name('admin.offers');
     Route::get('/offers/add',[OffreController::class, 'addform'])->name('admin.offers.add');
     Route::post('/offers/add',[OffreController::class, 'store']);

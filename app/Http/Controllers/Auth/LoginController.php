@@ -50,12 +50,16 @@ class LoginController extends Controller
             // }
         }
 
+        
         // if(Auth::user()->etat === "desactive"){
-        //     Auth::logout();
-
-        //     return redirect()->route('suspended');
-        // }
-
+            //     Auth::logout();
+            
+            //     return redirect()->route('suspended');
+            // }
+            
+        if(Auth::user()->type_user === "abonné" && !Auth::user()->phoneVerified ){
+            return redirect()->route('phone.verification');
+        }
         return redirect()->route('search');
     }
 }

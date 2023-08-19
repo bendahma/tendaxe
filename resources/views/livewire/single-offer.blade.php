@@ -76,8 +76,8 @@
                                 <select wire:model="wilaya" class="form-control selectpicker" id="wilaya_offre"
                                     data-live-search="true" data-size="5" style="font-size: 0.6rem;">
                                     <option data-id="0" value="etab" selected>Wilaya d'etablissement</option>
-                                    @foreach (App\Models\Wilaya::All() as $wilaya)
-                                        <option value="{{ $wilaya->wilaya }}">{{ $wilaya->wilaya }}</option>
+                                    @foreach (App\Models\Wilaya::distinct()->pluck('wilaya') as $wilaya)
+                                        <option value="{{ $wilaya }}">{{ $wilaya }}</option>
                                     @endforeach
                                 </select>
                             </div>
