@@ -27,14 +27,14 @@ class SingleOffer extends Component
     public $offer ;
 
     public $titre;
+    public $wilaya = 'Alger';
     public $etablissement;
     public $secteur = [];
-    public $journalOffre;
+    public $journalOffre ;
     public $journal;
     public $journalF;
     public $journalA;
     public $status = "Appel d'offres & Consultation";
-    public $wilaya;
     public $description;
     public $date_publication;
     public $date_after = 15 ;
@@ -42,22 +42,7 @@ class SingleOffer extends Component
     public $image ;
     public $showList = false; // New property to control the visibility of the list
 
-    // $this->validate($request, [
-    //     'titre' => 'required',
-    //     'description' => 'nullable',
-    //     'date_pub' => 'required|date',
-    //     'date_lim' => 'required|date',
-    //     'secteur' => 'required|array',
-    //     'statut' => 'required|max:255',
-    //     'wilaya_offre' => 'max:255',
-    //     'type' => 'in:national,international',
-    //     'prix' => 'nullable|numeric',
-    //     'etab' => 'required|numeric',
-    //     'journal_ar' => 'required|numeric',
-    //     'journal_fr' => 'required|numeric',
-    //     'photo' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
-    //     'photo2' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
-    // ]);
+    
 
     
     public function mount($offer)
@@ -86,17 +71,6 @@ class SingleOffer extends Component
         $this->selectedItem = Offre::find($itemId);
         $this->titre = $this->selectedItem->titre;
         $this->showList = false;
-        
-        $similaireOffers = Offre::where('titre','LIKE','%' . $this->titre . '%')->with('secteur:id')->first(['id','titre']);
-
-        if(!empty($similaireOffers) && !empty($this->titre)){
-            $this->secteur = [];
-            foreach ($similaireOffers->secteur as $secteur) {
-                $this->secteur[] = $secteur->id;
-            }
-        }else {
-            $this->secteur = [];
-        }
     }
 
     public function chooseSelectedItem()
@@ -106,6 +80,9 @@ class SingleOffer extends Component
             $this->resetSelectedItem();
             $this->showList = false;
         }
+
+        $this->updatedTitre() ;
+        
     }
 
     public function moveSelection($direction)
@@ -149,15 +126,20 @@ class SingleOffer extends Component
 
         $similaireOffers = Offre::where('titre','LIKE','%' . $this->titre . '%')->with('secteur:id')->get(['id','titre']);
 
-        if(!empty($similaireOffers) && $similaireOffers->count() == 1 && !empty($this->titre)){
+        if(!empty($similaireOffers) && !empty($this->titre)){
             $this->secteur = [];
-            foreach ($similaireOffers[0]->secteur as $secteur) {
-                $this->secteur[] = $secteur->id;
+
+            foreach ($similaireOffers as $offre) {
+                foreach ($offre->secteur as $secteur) {
+                    if (!in_array($secteur->id, $this->secteur)) {
+                        $this->secteur[] = $secteur->id;
+                    }
+                }
             }
+
         }else {
             $this->secteur = [];
         }
-
     }
 
     public function updatedEtablissement(){
@@ -188,7 +170,26 @@ class SingleOffer extends Component
     }
 
     public function submit(){
+        $this->validate($request, [
+            'journalOffre' => 'required'
+            
+            // 'titre' => 'required',
+            // 'description' => 'nullable',
+            // 'date_pub' => 'required|date',
+            // 'date_lim' => 'required|date',
+            // 'secteur' => 'required|array',
+            // 'statut' => 'required|max:255',
+            // 'wilaya_offre' => 'max:255',
+            // 'type' => 'in:national,international',
+            // 'prix' => 'nullable|numeric',
+            // 'etab' => 'required|numeric',
+            // 'journal_ar' => 'required|numeric',
+            // 'journal_fr' => 'required|numeric',
+            // 'photo' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
+            // 'photo2' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
+        ]);
 
+        
         $offre = Offre::create([
             'user_id' => Auth::id(),
             'titre' => $this->titre,

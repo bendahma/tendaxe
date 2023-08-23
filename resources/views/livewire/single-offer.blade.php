@@ -27,6 +27,7 @@
                                         wire:keydown.enter.prevent="chooseSelectedItem"
                                         wire:keydown.escape="resetSelectedItem"
                                         style="font-size: 0.8rem;"
+                                        required
                                     >
                                     @if($showList && !empty($titre) && $titreCount > 0)
                                         <ul class="list-group position-absolute w-100" style="z-index: 9999; top: 100%; font-size: 0.7rem; background-color:#ff9">
@@ -49,8 +50,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-white" style="width: 140px">Annonceur</span>
                                 </div>
-                                <select wire:model="etablissement" class="form-control selectpicker"
-                                    data-live-search="true" data-size="5" id="" title="etablissement" style="font-size: 0.6rem;">
+                                <select required wire:model="etablissement" class="form-control selectpicker"
+                                    data-live-search="true" data-size="5" id="" title="etablissement" style="font-size: 0.6rem;" >
                                     @foreach (App\Models\Adminetab::All() as $etab)
                                         <option value="{{ $etab->id }}">
                                             {{ \Illuminate\Support\Str::limit($etab->nom_etablissement, 50, $end = '...') }}
@@ -73,25 +74,28 @@
                         </div>
                        
                             <div class="col-md-3" wire:ignore>
-                                <select wire:model="wilaya" class="form-control selectpicker" id="wilaya_offre"
+                                <select required wire:model="wilaya" class="form-control selectpicker" id="wilaya_offre"
                                     data-live-search="true" data-size="5" style="font-size: 0.6rem;">
-                                    <option data-id="0" value="etab" selected>Wilaya d'etablissement</option>
-                                    @foreach (App\Models\Wilaya::distinct()->pluck('wilaya') as $wilaya)
-                                        <option value="{{ $wilaya }}">{{ $wilaya }}</option>
+                                    <option data-id="0" selected>Wilaya d'etablissement</option>
+                                    @foreach (App\Models\Wilaya::where('codeWilaya','!=',NULL)->orderBy('codeWilaya', 'ASC')->select('wilaya', 'codeWilaya')->distinct()->get() as $wilaya)
+                                        <option value="{{ $wilaya['wilaya'] }}" > 
+                                            
+                                            {{ $wilaya['codeWilaya'] . '-' .$wilaya['wilaya'] }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-3" wire:ignore>
-                                <select wire:model="journalOffre" class="form-control selectpicker" id="wilaya_offre"
-                                    data-live-search="true" data-size="5" >
-                                    <option data-id="0" value="etab" selected>Journal
-                                    </option>
+                                <select required wire:model="journalOffre" class="form-control selectpicker" id="wilaya_offre"
+                                    data-live-search="true" data-size="5" style="font-size: 0.6rem;">
+                                    <option data-id="0" value="" selected>Journal</option>
                                     @foreach ($journal as $j)
                                         <option value="{{ $j['id'] . '_' . $j['source'] }}">{{ $j['nom'] }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        
+                                @error('journalOffre') <span class="error">{{ $message }}</span> @enderror
+
+                            </div>                
                         
                     </div>
 
@@ -101,7 +105,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-white" style="width: 140px">Status</span>
                                 </div>
-                                <select wire:model="status" class="form-control mb-2 selectpicker" title="statut" data-live-search="true" data-size="5">
+                                <select required wire:model="status" class="form-control mb-2 selectpicker" title="statut" data-live-search="true" data-size="5">
                                     <option value="Appel d'offres & Consultation" selected>Appel d'offres & Consultation</option>
                                     <option value="Attribution de marché"> Attribution de marché</option>
                                     <option value="Sous-traitance" >Sous-traitance </option>
@@ -119,7 +123,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-white" style="width: 140px">Secteur</span>
                                 </div>
-                                <select wire:model="secteur" class="form-control mb-2 selectpicker" multiple
+                                <select required wire:model="secteur" class="form-control mb-2 selectpicker" multiple
                                     title="Secteur" data-live-search="true" data-size="5">
                                     @foreach (App\Models\Secteur::All() as $sect)
                                         <option value="{{ $sect->id }}" data-tokens="{{ $sect->secteur }}">
@@ -139,7 +143,7 @@
                                     <span class="input-group-text bg-white" style="width: 140px">Date
                                         publication</span>
                                 </div>
-                                <input type="date" wire:model="date_publication" class="form-control"
+                                <input required type="date" wire:model="date_publication" class="form-control"
                                     id="datePublication">
                             </div>
 
@@ -151,13 +155,13 @@
                                     <span class="input-group-text bg-white" style="width: 140px">Date
                                         d'échéance</span>
                                 </div>
-                                <input type="date" class="form-control" id="dateEcheance"
+                                <input required type="date" class="form-control" id="dateEcheance"
                                     wire:model="date_echeance">
                             </div>
                         </div>
                         <div class="col-md-1" wire:ignore>
                             <div class="input-group">
-                                <input type="text" wire:model="date_after" class="form-control">
+                                <input required type="text" wire:model="date_after" class="form-control">
                             </div>
                         </div>
                     </div>

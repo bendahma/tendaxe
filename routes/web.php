@@ -45,16 +45,160 @@ Route::get('/fillDatabase', function () {
     Journalar::query()->update(['source'=>'journalAr']);
     Journalfr::query()->update(['source'=>'journalFr']);
 
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Timimoun']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Bordj Badji Mokhtar']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Ouled Djellal']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Béni Abbès']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Salah']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Guezzam']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Touggourt']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'Djanet']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'El M’Ghaier']);
-    Wilaya::create(['notif_id'=>3,'wilaya'=>'El Meniaa']);
+    $wilaya = Wilaya::where('wilaya','=','Adrar')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '01']);  }
+
+    $wilaya = Wilaya::where('wilaya','=','Chlef')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '02']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Laghouat')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '03']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Oum El Bouaghi')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '04']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Batna')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '05']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Béjaïa')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '06']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Biskra')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '07']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Béchar')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '08']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Blida')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '09']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Bouira')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '10']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tamanrasset')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '11']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tébessa')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '12']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tlemcen')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '13']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tiaret')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '14']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tizi Ouzou')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '15']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Alger')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '16']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Djelfa')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '17']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Jijel')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '18']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Sétif')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '19']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Saïda')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '20']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Skikda')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '21']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Sidi Bel Abbès')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '22']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Annaba')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '23']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Guelma')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '24']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Constantine')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '25']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Médéa')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '26']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Mostaganem')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '27']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','M\'Sila')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '28']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Mascara')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '29']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Ouargla')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '30']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Oran')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '31']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','El Bayadh')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '32']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Illizi')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '33']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Bordj Bou Arreridj')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '34']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Boumerdès')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '35']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','El Tarf')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '36']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tindouf')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '37']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tissemsilt')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '38']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','El Oued')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '39']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Khenchela')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '40']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Souk Ahras')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '41']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Tipaza')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '42']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Mila')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '43']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Aïn Defla')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '44']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Naâma')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '45']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Aïn Témouchent')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '46']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Ghardaïa')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '47']);  }
+    
+    $wilaya = Wilaya::where('wilaya','=','Relizane')->get();
+    foreach ($wilaya as $w) { $w->update(['codeWilaya'  => '48']);  }
+
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Timimoun','codeWilaya' => '49']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Bordj Badji Mokhtar','codeWilaya' => '50']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Ouled Djellal','codeWilaya' => '51']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Béni Abbès','codeWilaya' => '52']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Salah','codeWilaya' => '53']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'In Guezzam','codeWilaya' => '54']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Touggourt','codeWilaya' => '55']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'Djanet','codeWilaya' => '56']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'El M’Ghaier','codeWilaya' => '57']);
+    Wilaya::create(['notif_id'=>3,'wilaya'=>'El Meniaa','codeWilaya' => '58']);
 
     return "DONE";
 });
@@ -165,8 +309,10 @@ Route::group(['prefix' => 'admin',  'middleware' => 'admin'], function() {
     Route::get('/users',[UsersController::class, 'index'])->name('admin.users');
     Route::post('/users/etat/{user}',[UsersController::class, 'update_etat'])->name('admin.user.etat');
     Route::post('/users/email/{user}',[UsersController::class, 'Email_Verify'])->name('admin.user.email');
+    Route::post('/users/phone/{user}',[UsersController::class, 'Phone_Verify'])->name('admin.user.phoneVerify');
     Route::post('/users/password/{user}',[UsersController::class, 'update_password'])->name('admin.user.password');
     Route::post('/users/detail/{user}',[UsersController::class, 'update_details'])->name('admin.user.details');
+    Route::delete('/users/delete/{user}',[UsersController::class, 'destroy'])->name('admin.users.destroy');
     Route::delete('/abonnement',[AbonnementController::class, 'destroy'])->name('admin.abonnement.destroy');
     Route::post('/abonnement/add/{user}',[AbonnementController::class, 'store'])->name('admin.abonnement.store');
     Route::post('/abonnement/edit',[AbonnementController::class, 'edit'])->name('admin.abonnement.edit');

@@ -170,6 +170,7 @@
                 </a>
 
 				<div class="navbar-collapse collapse">
+					<span>{{ auth()->user()->nom . ' ' . auth()->user()->prenom }} : {{ auth()->user()->type_user }}</span> 
 					<ul class="navbar-nav navbar-align">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

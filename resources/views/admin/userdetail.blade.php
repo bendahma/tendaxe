@@ -5,22 +5,25 @@
 @section('content')
 
     @if (session('success'))
-    <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        <div class="alert-message">
-            {{ session('success') }}
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="alert-message">
+                <svg id="SvgjsSvg1012" width="25" height="25" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1013"></defs><g id="SvgjsG1014"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25"><g data-name="Layer 2" fill="#16da16" class="color000 svgShape"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm4.3 7.61-4.57 6a1 1 0 0 1-.79.39 1 1 0 0 1-.79-.38l-2.44-3.11a1 1 0 0 1 1.58-1.23l1.63 2.08 3.78-5a1 1 0 1 1 1.6 1.22z" data-name="checkmark-circle-2" fill="#16da16" class="color000 svgShape"></path></g></svg></g></svg>
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
     @endif
 
-    @if (session('error'))
-    <div class="alert alert-danger" role="alert">
-        {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    @if (session('erreur'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="alert-message">
+                <svg id="SvgjsSvg1030" width="25" height="25" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1031"></defs><g id="SvgjsG1032"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="25" height="25"><rect width="256" height="256" fill="none"></rect><path d="M128,24A104,104,0,1,0,232,128,104.12041,104.12041,0,0,0,128,24Zm37.65625,130.34375a7.99915,7.99915,0,1,1-11.3125,11.3125L128,139.3125l-26.34375,26.34375a7.99915,7.99915,0,0,1-11.3125-11.3125L116.6875,128,90.34375,101.65625a7.99915,7.99915,0,0,1,11.3125-11.3125L128,116.6875l26.34375-26.34375a7.99915,7.99915,0,0,1,11.3125,11.3125L139.3125,128Z" fill="#ff0000" class="color000 svgShape"></path></svg></g></svg>
+                {{ session('erreur') }}
+            </div>
+        </div>
     @endif
+
 
     @if(count($errors)>0)
             @foreach($errors->all() as $error)
@@ -102,6 +105,20 @@
         <hr>
        
 
+        <h4>Etat de verification de N° Téléphone </h4>
+        <form action="{{ route('admin.user.phoneVerify', $user) }}" method="POST" class="row">
+            @csrf
+            <div class="col-md-10">
+                <select class="form-control selectpicker" name="verification" >
+                    <option value="1" {{ ($user->phoneVerified) ?? 'selected' }}>On</option>
+                    <option value="0" {{ (!$user->phoneVerified) ? 'selected' : '' }}>Off</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-info">Changer</button>
+            </div>
+        </form>
+        <hr>
         <h4>Etat email verification</h4>
         <form action="{{ route('admin.user.email', $user) }}" method="POST" class="row">
             @csrf
@@ -502,10 +519,30 @@
             </form>
 
         @endif
-
+        @if(auth()->user()->type_user == 'Super admin')
+            <div class="container mt-4">
+                <h2>Danger zone</h2>
+                <div class="card mt-4" style="background-color: rgb(245, 138, 138)">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <h3 class="" style="font-size:0.95rem; color:white">Supprimé compte</h3>
+                        <div class="">
+                            <form action="{{ route('admin.users.destroy',$user) }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center" id="delete-account">
+                                    <svg id="SvgjsSvg1012" width="20" height="20" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1013"></defs><g id="SvgjsG1014"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M21 5H3a1 1 0 0 0 0 2h2v12a3 3 0 0 0 3 3h8a2.999 2.999 0 0 0 3-3V7h2a1 1 0 0 0 0-2zm-4 14a1.001 1.001 0 0 1-1 1H8a1.001 1.001 0 0 1-1-1V7h10zM10 4h4a1 1 0 0 0 0-2h-4a1 1 0 0 0 0 2z" fill="#ffffff" class="color000 svgShape"></path><path d="M11 16v-5a1 1 0 0 0-2 0v5a1 1 0 0 0 2 0zm4 0v-5a1 1 0 0 0-2 0v5a1 1 0 0 0 2 0z" fill="#ffffff" class="color000 svgShape"></path></svg></g></svg>
+                                    <span class="ml-2">Supprimé compte</span> 
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        
     </div>
 
-            <!-- delete modal -->
+    <!-- delete modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">

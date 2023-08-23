@@ -14,5 +14,6 @@ class Wilaya extends Model
     protected $fillable = [
         'wilaya',
         'notif_id',
+        'codeWilaya'
     ];
 }

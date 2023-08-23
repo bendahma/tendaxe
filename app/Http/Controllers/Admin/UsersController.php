@@ -22,12 +22,14 @@ class UsersController extends Controller
         ]);
         $users = User::where([
             ['type_user', '<>' , 'admin'],
+            ['type_user', '<>' , 'Super admin'],
             ['type_user', '<>' , 'publisher'],
         ]);
 
         if($request->type_user && $request->type_user !== 'all'){
             $users = $users->where([
                 ['type_user', '<>' , 'admin'],
+                ['type_user', '<>' , 'Super admin'],
                 ['type_user', '<>' , 'publisher'],
                 ['type_user', $request->type_user],
             ]);
@@ -54,9 +56,9 @@ class UsersController extends Controller
 
         $etab = null;
 
-        if($user->type_user === 'admin'){
-            return abort(403);
-        }
+        // if($user->type_user === 'admin'){
+        //     return abort(403);
+        // }
 
         if($user->type_user === 'content' && $user->etablissement_id){
             $etab = $user->etablissement;
@@ -96,6 +98,18 @@ class UsersController extends Controller
         $user->save();
 
         return back()->with('success', 'etat email verification a été changer avec succés');
+    }
+
+    public function Phone_Verify(Request $request, User $user)
+    {
+        $user->update([
+            'phoneVerified' => $request->verification,
+            'code' => NULL,
+        ]);
+
+        $message = $request->verification ? 'N° téléphone verifie avec succés' : 'N° téléphone incorrect' ;
+
+        return back()->with('success', $message);
     }
 
     public function update_details(User $user, Request $request)
@@ -312,5 +326,22 @@ class UsersController extends Controller
         }else{
             return 'error';
         }
+    }
+
+    public function destroy(Request $request, User $user){
+        
+        $user_role = $user->type_user;
+
+        if(auth()->user()->id == $user->id){
+            return back()->with('erreur','Erreur, vous ne pouvez pas supprimé votre compte.');
+        }
+
+        $user->delete();
+
+        
+
+        return ( $user_role == 'abonné' ||  $user_role == 'content' ) ? redirect(route('admin.users'))->with('success', 'L\'utilisateur supprimé avec succès') 
+                                                                      : redirect(route('admin.admins'))->with('success', 'L\'utilisateur supprimé avec succès') ;
+
     }
 }

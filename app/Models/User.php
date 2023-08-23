@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->hasMany(Abonnement::class)->where('etat', 'active');
     }
 
+    public function abonnement_latest()
+    {
+        return $this->hasMany(Abonnement::class)->where('etat', 'active')->orderByDesc('created_at')->take(1); // This orders the results in descending order by the created_at column
+    }
+
+    public function abonnement_payant()
+    {
+        return $this->hasMany(Abonnement::class)->where('etat', 'active')->where('nom_abonnement','!=','gratuit'); 
+    }
+
     public function current_abonnement()
     {
         return $this->hasOne(Abonnement::class)
