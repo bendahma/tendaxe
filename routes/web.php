@@ -217,12 +217,19 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-// phone number verification
+// phone number routes
 Route::get('/phone/verify', [verificationController::class,'index'])->middleware('auth')->name('phone.verification');
 Route::post('/phone/check', [verificationController::class,'check'])->middleware('auth')->name('phone.check');
 Route::get('/phone/notification', [verificationController::class,'notification'])->middleware('auth')->name('phone.notification');
 Route::get('/phone/sendNotification/{user}', [verificationController::class,'sendNotification'])->middleware('auth')->name('phone.sendNotification');
 Route::get('/phone/confirmation/{user}', [verificationController::class,'confirmation'])->middleware('auth')->name('phone.confirmation');
+Route::get('/phone/{user}/edit/', [verificationController::class,'edit'])->middleware('auth')->name('phone.edit');
+
+Route::patch('/phone/update/{user}', [verificationController::class,'update'])->middleware('auth')->name('phone.update');
+
+Route::get('/users/{user}/relogin', [UsersController::class,'relogin'])->name('users.relogin');
+
+
 // admin phone verification 
 Route::resource('/adminphone', AdminPhoneNotificationController::class);
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

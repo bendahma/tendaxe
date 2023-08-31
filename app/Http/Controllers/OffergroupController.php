@@ -82,21 +82,19 @@ public function addgroupofferlist(Request $request)
 {
     $files = $request->file('images');
     foreach ($files as $image) {
-        $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-
-        // Resize the image
+        $fileName = uniqid() . '.' . $image->getClientOriginalExtension();    
+           
         $img = Image::make($image->getRealPath());
-        
-        $img->text('TENDAXE - All Rights Reserved', 120, 100, function($font) { 
-            $font->size(60);  
-            $font->color('#e31212');  
-            $font->align('center');  
-            $font->valign('bottom');  
-            $font->angle(90);  
+        $img->resize(1200, 1200, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
         });
 
-        // Save the watermarked image directly without using the stream
-        $img->save(public_path('storage/' . $fileName));
+        $img->stream(); // <-- Key point
+
+        // dd($fileName);
+        Storage::disk('local')->put('public/' . $fileName, $img);
+       
 
         TempOffer::create([
             'titre' => $image->getClientOriginalName(),

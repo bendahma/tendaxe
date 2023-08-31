@@ -6,12 +6,13 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Notif;
 use App\Models\Adminetab;
+use App\Models\AdminPhoneNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-
+use Auth;
 class UsersController extends Controller
 {
     public function index(Request $request)
@@ -106,6 +107,8 @@ class UsersController extends Controller
             'phoneVerified' => $request->verification,
             'code' => NULL,
         ]);
+
+        AdminPhoneNotification::where('user_id',$user->id)->delete();
 
         $message = $request->verification ? 'N° téléphone verifie avec succés' : 'N° téléphone incorrect' ;
 
@@ -343,5 +346,10 @@ class UsersController extends Controller
         return ( $user_role == 'abonné' ||  $user_role == 'content' ) ? redirect(route('admin.users'))->with('success', 'L\'utilisateur supprimé avec succès') 
                                                                       : redirect(route('admin.admins'))->with('success', 'L\'utilisateur supprimé avec succès') ;
 
+    }
+
+    public function relogin(User $user){
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

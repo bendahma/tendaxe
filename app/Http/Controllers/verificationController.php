@@ -13,6 +13,7 @@ use Auth;
 
 class verificationController extends Controller
 {
+
     public function index(){
 
         $user = Auth::user();
@@ -23,7 +24,7 @@ class verificationController extends Controller
 
         $message = 'Votre%20code%20de%20confirmation%20est%20:%20' .$code;
         
-        // Http::get('https://es3.smsalgerie.com/api/json?apikey=f252d2b59c290bb46104085577cdb158a60b5fa1&userkey=4777340f27851c120996a5fe4ad33e1d&function=sms_send&message='. $message .'&to='.$phoneNumber);
+        Http::get('https://es3.smsalgerie.com/api/json?apikey=f252d2b59c290bb46104085577cdb158a60b5fa1&userkey=4777340f27851c120996a5fe4ad33e1d&function=sms_send&message='. $message .'&to='.$phoneNumber);
         
         // User phone verifications attempts
         $nt = $user->attempt + 1 ;
@@ -52,6 +53,29 @@ class verificationController extends Controller
         return view('auth.confirmPhone')->with('attempt',$attempt)
                                         ->with('user',$user);
 
+    }
+
+    public function edit(User $user){
+
+        return view('auth.editPhone')->with('user',$user);
+
+    }
+    public function update(Request $request,User $user){
+
+        $newPhone = $request->phone;
+
+        $checkPhone = User::where('phone',$newPhone)->count();
+
+        if($checkPhone == 1) {
+            return view('auth.editPhone')->with('user',$user)->with('error','Le numéro téléphone déja existe');
+        }
+
+        $user->update([
+            'phone' => $request->phone,
+            'attempt' => 0
+        ]);
+        
+        return redirect(route('phone.verification'))->with('successPhoneUpdate','suucess phone update');
     }
 
     public function check(Request $request){

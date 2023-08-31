@@ -109,8 +109,8 @@ class SingleOffer extends Component
     public function resetSelectedItem()
     {
         $this->selectedItem = null;
-        $this->showList = false; // Hide the list after pressing Escape
-
+        $this->showList = false; 
+        $this->reset('secteur');
     }
 
     public function hideChoices()
@@ -119,7 +119,8 @@ class SingleOffer extends Component
     }
 
     public function updatedTitre(){
-        
+        $this->reset('secteur');
+
         $this->titreResults = Offre::where('titre', 'like', '%' . $this->titre . '%')->get();
         $this->titreCount = Offre::where('titre', 'like', '%' . $this->titre . '%')->count();
         $this->showList = true; 
@@ -170,23 +171,8 @@ class SingleOffer extends Component
     }
 
     public function submit(){
-        $this->validate($request, [
+        $this->validate([
             'journalOffre' => 'required'
-            
-            // 'titre' => 'required',
-            // 'description' => 'nullable',
-            // 'date_pub' => 'required|date',
-            // 'date_lim' => 'required|date',
-            // 'secteur' => 'required|array',
-            // 'statut' => 'required|max:255',
-            // 'wilaya_offre' => 'max:255',
-            // 'type' => 'in:national,international',
-            // 'prix' => 'nullable|numeric',
-            // 'etab' => 'required|numeric',
-            // 'journal_ar' => 'required|numeric',
-            // 'journal_fr' => 'required|numeric',
-            // 'photo' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
-            // 'photo2' => 'required_if:description,value|mimes:jpeg,jpg,png|max:100000', // max 10000kb
         ]);
 
         
