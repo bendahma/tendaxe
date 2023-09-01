@@ -124,11 +124,11 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-white" style="width: 140px">Secteur</span>
                                 </div>
-                                <select required wire:model="secteur" wire:loading.attr="disabled" class="form-control mb-2 selectpicker" multiple
+                                <select required wire:model="secteur" class="form-control mb-2 selectpicker" multiple
                                     title="Secteur" data-live-search="true" data-size="5">
                                     @foreach (App\Models\Secteur::All() as $sect)
                                         <option value="{{ $sect->id }}" data-tokens="{{ $sect->secteur }}">
-                                            {{$sect->secteur}}
+                                            {{ \Illuminate\Support\Str::limit($sect->secteur, 50, $end = '...') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -210,14 +210,13 @@
     document.addEventListener('livewire:load', function () {
         $('select').selectpicker();
     });
-
     document.addEventListener('livewire:update', function () {
         $('select').selectpicker();
     });
 
     document.addEventListener('click', function (event) {
         const clickedElement = event.target;
-        const inputElement = document.querySelector('input[type="text"][wire:model="titre"]');
+        const inputElement = document.querySelector('.titre');
 
         if (inputElement && !inputElement.contains(clickedElement)) {
             Livewire.emit('keydown.escape');
