@@ -1,5 +1,5 @@
 <div>
-    @if(!$dismiss)
+    {{-- @if(!$dismiss) --}}
         <form wire:submit.prevent="submit">
             <div class="card" style="font-size: 0.8rem">
                 <div class="card-body" style="padding: 0px 1rem">
@@ -17,11 +17,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text bg-white" style="width: 140px;">Titre</span>
                                 </div>
-                                <div class="position-relative flex-grow-1"> <!-- Added flex-grow-1 class to make the input field take up remaining space -->
+                                <div class="position-relative flex-grow-1"> 
+                                    
                                     <input type="text"
-                                        class="form-control"
+                                        class="form-control titre"
                                         id=""
-                                        wire:model.debounce.500ms="titre"
+                                        wire:model="titre"
                                         wire:keydown.arrow-up="moveSelection('up')"
                                         wire:keydown.arrow-down="moveSelection('down')"
                                         wire:keydown.enter.prevent="chooseSelectedItem"
@@ -202,7 +203,7 @@
                 </div>
             </div>
         </form>
-    @endif
+    {{-- @endif --}}
 
     <script type="text/javascript">
     
@@ -215,7 +216,7 @@
 
     document.addEventListener('click', function (event) {
         const clickedElement = event.target;
-        const inputElement = document.querySelector('input[type="text"][wire:model="titre"]');
+        const inputElement = document.querySelector('.titre');
 
         if (inputElement && !inputElement.contains(clickedElement)) {
             Livewire.emit('keydown.escape');

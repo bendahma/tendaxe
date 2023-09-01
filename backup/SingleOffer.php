@@ -118,21 +118,16 @@ class SingleOffer extends Component
     }
 
     public function updatedTitre(){
-        $this->reset('secteur');
-        $lastYear = Date('Y') - 1 ;
-        $from = Date($lastYear.'-m-d');
-        $to = Date('Y-m-d');
-        $this->titreResults = Offre::where('titre', 'like', '%' . $this->titre . '%')->whereBetween('created_at', [$from, $to])
-                                                                                    ->latest('created_at')
-                                                                                    ->limit(100)
-                                                                                    ->with('secteur:id')
-                                                                                    ->get(['id','titre']);
-        $this->titreCount = $this->titreResults->count();
+        
 
+        $this->titreResults = Offre::where('titre', 'like', '%' . $this->titre . '%')->get();
+        $this->titreCount = Offre::where('titre', 'like', '%' . $this->titre . '%')->count();
         $this->showList = true; 
 
-        if(!empty($this->titreResults) && !empty($this->titre)){
-            foreach ($this->titreResults as $offre) {
+        $similaireOffers = Offre::where('titre','LIKE','%' . $this->titre . '%')->with('secteur:id')->get(['id','titre']);
+
+        if(!empty($similaireOffers) && !empty($this->titre)){
+            foreach ($similaireOffers as $offre) {
                 foreach ($offre->secteur as $secteur) {
                     if (!in_array($secteur->id, $this->secteur)) {
                         $this->secteur[] = $secteur->id;
@@ -140,13 +135,9 @@ class SingleOffer extends Component
                 }
             }
 
-        } else {
-            $this->reset('secteur') ;
+        }else {
+            $this->secteur = [];
         }
-    }
-
-    public function updatedSecteur(){
-        $this->updatedTitre();
     }
 
     public function updatedEtablissement(){
